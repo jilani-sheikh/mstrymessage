@@ -2,11 +2,10 @@
 
 **MstryMessage** is an anonymous messaging platform built with **Next.js** that allows users to create a public profile and receive anonymous messages through a shareable link. It also uses **Google Gemini** to generate message suggestions for users who want inspiration before sending an anonymous message.
 
+
 ## 🚀 Live Demo
 
-**Coming Soon**
-
-> **Note:** The project currently uses a temporary/local deployment configuration and does not have a custom domain.
+🔗 **[Visit MstryMessage](https://mstrymessage-cyan.vercel.app/)**
 
 ## ✨ Features
 
@@ -113,7 +112,7 @@ A sample configuration is available in `.env.sample`.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/mstrymessage.git
+git clone https://github.com/jilani-sheikh/mstrymessage.git
 cd mstrymessage
 ```
 
@@ -169,28 +168,6 @@ This allows you to access the application without depending on the email-verific
 * Passwords are securely handled during credential authentication.
 * MongoDB is used for persistent data storage.
 * API routes validate authenticated requests where required.
-
-## 📂 Project Structure
-
-```text
-mstrymessage/
-├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   ├── dashboard/
-│   │   ├── sign-in/
-│   │   ├── sign-up/
-│   │   ├── verify/
-│   │   └── u/
-│   ├── components/
-│   ├── lib/
-│   └── model/
-├── public/
-├── .env.sample
-├── .gitignore
-├── package.json
-└── README.md
-```
 
 ## 🎯 Future Improvements
 
