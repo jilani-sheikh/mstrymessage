@@ -1,26 +1,154 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --font-sans used to read `var(--font-sans)`, a self-reference that made
+     the whole font pipeline resolve to nothing. It now points at the Geist
+     variables that src/app/layout.tsx puts on <html>, with real fallbacks so
+     the UI still looks right if the font download ever fails. */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.625rem;
+
+  /* Neutrals carry a whisper of the brand hue (chroma 0.004-0.02 at hue 264)
+     so surfaces read as a designed palette instead of default Tailwind gray.
+     `background` sits just below pure white so `card` lifts off the page
+     without needing a heavy shadow. */
+  --background: oklch(0.985 0.004 264);
+  --foreground: oklch(0.16 0.014 266);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.014 266);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.014 266);
+
+  /* One brand accent, used only for primary CTAs, the switch's checked state,
+     focus rings and the logo mark. Nothing else - restraint is the point. */
+  --primary: oklch(0.52 0.2 264.5);
+  --primary-foreground: oklch(0.98 0.01 264);
+
+  --secondary: oklch(0.968 0.007 264);
+  --secondary-foreground: oklch(0.22 0.02 266);
+  --muted: oklch(0.968 0.007 264);
+  --muted-foreground: oklch(0.52 0.02 264);
+  --accent: oklch(0.955 0.012 264);
+  --accent-foreground: oklch(0.22 0.02 266);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.915 0.008 264);
+  --input: oklch(0.915 0.008 264);
+  --ring: oklch(0.52 0.2 264.5);
+
+  /* Monochromatic blue ramp with two analogous accents, so any future data
+     viz stays on brand rather than grayscale. */
+  --chart-1: oklch(0.55 0.19 264.5);
+  --chart-2: oklch(0.65 0.15 255);
+  --chart-3: oklch(0.72 0.1 240);
+  --chart-4: oklch(0.6 0.13 200);
+  --chart-5: oklch(0.5 0.16 290);
+
+  --sidebar: oklch(0.98 0.006 264);
+  --sidebar-foreground: oklch(0.16 0.014 266);
+  --sidebar-primary: oklch(0.52 0.2 264.5);
+  --sidebar-primary-foreground: oklch(0.98 0.01 264);
+  --sidebar-accent: oklch(0.955 0.012 264);
+  --sidebar-accent-foreground: oklch(0.22 0.02 266);
+  --sidebar-border: oklch(0.915 0.008 264);
+  --sidebar-ring: oklch(0.52 0.2 264.5);
+}
+
+.dark {
+  /* Dormant today - there is no ThemeProvider or .dark class anywhere in the
+     app - but kept in sync with :root so the tokens stay correct if dark mode
+     is ever wired up. */
+  --background: oklch(0.16 0.014 266);
+  --foreground: oklch(0.97 0.005 264);
+  --card: oklch(0.2 0.016 266);
+  --card-foreground: oklch(0.97 0.005 264);
+  --popover: oklch(0.21 0.017 266);
+  --popover-foreground: oklch(0.97 0.005 264);
+
+  --primary: oklch(0.66 0.17 264.5);
+  --primary-foreground: oklch(0.17 0.03 265);
+
+  --secondary: oklch(0.27 0.02 266);
+  --secondary-foreground: oklch(0.97 0.005 264);
+  --muted: oklch(0.27 0.02 266);
+  --muted-foreground: oklch(0.74 0.02 264);
+  --accent: oklch(0.29 0.024 266);
+  --accent-foreground: oklch(0.97 0.005 264);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.66 0.17 264.5);
+
+  --chart-1: oklch(0.7 0.17 264.5);
+  --chart-2: oklch(0.76 0.14 255);
+  --chart-3: oklch(0.82 0.1 240);
+  --chart-4: oklch(0.72 0.12 200);
+  --chart-5: oklch(0.68 0.15 290);
+
+  --sidebar: oklch(0.2 0.016 266);
+  --sidebar-foreground: oklch(0.97 0.005 264);
+  --sidebar-primary: oklch(0.66 0.17 264.5);
+  --sidebar-primary-foreground: oklch(0.17 0.03 265);
+  --sidebar-accent: oklch(0.29 0.024 266);
+  --sidebar-accent-foreground: oklch(0.97 0.005 264);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.66 0.17 264.5);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }
